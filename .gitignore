@@ -17,7 +17,6 @@ node_modules/
 
 # Ignore package-lock.json for npm
 package-lock.json
-package.json
 
 #Ignore yarn.lock for yarn
 yarn.lock
