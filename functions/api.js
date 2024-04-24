@@ -1,11 +1,10 @@
-import express, { json, urlencoded } from 'express';
-import serverless from 'serverless-http';
-import router from './routes/author';
-import { connect } from 'mongoose';
-import cors from 'cors';
+const express = require('express')
+const serverless = require('serverless-http')
+const router = require('./routes/author')
+const mongoose = require('mongoose')
+const cors = require('cors')
 
-const app = express();
-
+const app = express()
 const dbCloudUrl = 
 'mongodb+srv://johnlloyd15:QyOwQvnki75ZaAvP@cluster0.0ycwtxv.mongodb.net/?retryWrites=true&w=majority';
 
