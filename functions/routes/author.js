@@ -19,29 +19,35 @@ router.get('/:id', getAuthor, (req, res) => {
 });
 
 
-//CREATE an author
+// CREATE an author
 router.post('/', async (req, res) => {
     try {
-        //Validate request body
+        // Validate request body
         if (!req.body.name || !req.body.age) {
-            return res.status(400).json({ message: 'Name and age are required'});
+            return res.status(400).json({ message: 'Name and age are required' });
         }
 
-        //Check if the auhtor's name already exists
+        // Check if the author's name already exists
         const existingAuthor = await AuthorModel.findOne({ name: req.body.name });
         if (existingAuthor) {
             return res.status(400).json({ message: 'Author already exists' });
         }
 
-        const author = new AuthorModel(req.body);
-        const newAuthor = await author.save();
-        res
-        .status(201)
-        .json({ message: 'Author created successfully', author: newAuthor });
+        // Create a new AuthorModel instance with req.body and save to database
+        const newAuthor = new AuthorModel({
+            name: req.body.name,
+            age: req.body.age,
+            // Add other fields as needed from req.body
+        });
+
+        const savedAuthor = await newAuthor.save();
+        
+        res.status(201).json({ message: 'Author created successfully', author: savedAuthor });
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 });
+
 
 
 //UPDATE an author
@@ -84,6 +90,17 @@ router.delete('/:id', getAuthor, async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+// DELETE an author
+router.delete('/:id', getAuthor, async (req, res) => {
+    try {
+        await res.author.remove();
+        res.json({ message: 'Author deleted' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 //Middleware function to get a single author by ID
 async function getAuthor(req, res, next) {
