@@ -59,11 +59,15 @@ router.patch('/:id', getAuthor, async (req, res) => {
 
 router.put('/:id', getAuthor, async (req, res) => {
     try {
-        const updatedAuthor =  await AuthorModel.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {new: true}
-        );
+        
+        if (req.body.name != null) {
+            res.author.name = req.body.name;
+        }
+        if (req.body.age != null) {
+            res.author.age = req.body.age;
+        }
+        
+        const updatedAuthor = await res.author.save();
         res.json(updatedAuthor);
     } catch (err) {
         res.status(400).json({ message: err.message });
