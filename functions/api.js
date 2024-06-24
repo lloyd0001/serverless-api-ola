@@ -7,8 +7,6 @@ const router = require('./routes/author');
 const app = express();
 // mongoDB Cloud URL
 const dbCloudUrl ='mongodb+srv://johnlloyd15:1234@cluster0.0ycwtxv.mongodb.net/';
-// mongoDB local URL
-const dbLocalUrl = 'mongodb://localhost:27017//express-mongo-api';
 
 app.use(cors());
 app.use(express.json());
@@ -16,10 +14,11 @@ app.use(express.urlencoded({extended: true}));
 
 mongoose
   .connect(dbCloudUrl || dbLocalUrl)
-  .then(() => console.log('Connected to MongoDB'))
+  .then(() => {
+    console.log('Connected to MongoDB'
+  )})
   .catch((error) => console.error('Failed to connect to MongoDB:', error));
-  
-  const port = process.env.PORT || 3000;
+
   app.listen(port, () =>
     console.log(`Listening on port http://localhost:${port}`)
   );
